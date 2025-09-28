@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grinn Lo - Your Grinnell Welcome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lora:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --grinnell-red: #8d1a1b;
+        --dark-red: #5a1013;
+        --warm-background: #fdfaf6;
+        --warm-content-bg: #fffcf7;
+        --text-color: #4a4a4a;
+        --heading-color: #333;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        font-family: 'Nunito Sans', sans-serif;
+        margin: 0;  
+        color: var(--text-color);
+        background-color: var(--warm-background);
+        font-weight: 400;
+        line-height: 1.6;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Lora', serif;
+        color: var(--heading-color);
+    }
+
+    /* --- Header & ENHANCED Search Bar --- */
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 40px;
+        border-bottom: 1px solid #e0d9cf;
+        background-color: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        height: 50px;
+    }
+    .logo-container img {
+        max-height: 50px;
+    }
+    .tagline {
+        font-style: italic;
+        font-family: 'Lora', serif;
+        color: #555;
+        font-size: 1.2em;
+        margin-left: 20px;
+        position: relative;
+        top: -3px;
+    }
+    .search-bar {
+        position: relative;
+    }
+    .search-bar input {
+        padding: 8px 12px 8px 35px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 50px;
+        width: 220px;
+        transition: all 0.3s ease;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23aaa" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: 12px center;
+    }
+    .search-bar input:focus {
+        width: 250px;
+        border-color: var(--grinnell-red);
+        outline: none;
+    }
+
+    /* --- Static Hero Section --- */
+    .hero {
+        position: relative;
+        height: 450px;
+        background-image: url('https://www.grinnell.edu/sites/default/files/styles/landing_page_hero/public/images/2022-02/Peeking%20Sun.jpg?h=2aa41d8&itok=fzfRd1-t');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        border-bottom: 4px solid var(--grinnell-red);
+        border-radius: 0 0 15px 15px;
+        overflow: hidden;
+    }
+    .hero-text {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px 40px;
+        border-radius: 10px;
+    }
+    .hero-text h1 {
+        font-size: 6.5em;
+        font-family: 'Dancing Script', cursive;
+        margin: 0;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        color: #fff;
+    }
+    .hero-text p {
+        font-size: 1.3em;
+        max-width: 600px;
+        margin-top: 10px;
+    }
+
+    /* --- Cozy Welcome Section --- */
+    .welcome-message {
+        text-align: center;
+        padding: 60px 40px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .welcome-message h2 {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+    }
+    .welcome-message p {
+        font-size: 1.1em;
+        color: #555;
+    }
+    
+    /* --- Actions Navigation Bar --- */
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        padding: 10px 0;
+        background-color: var(--grinnell-red);
+    }
+    .action-button {
+        border: 1px solid #fff;
+        padding: 15px 50px;
+        font-size: 1.1em;
+        color: #fff;
+        font-weight: bold;
+        background-color: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border-radius: 50px;
+    }
+    .action-button:hover {
+        background-color: #fff;
+        color: var(--grinnell-red);
+    }
+
+    /* --- Dropdown Menu --- */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 220px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+    .dropdown-content a:hover {
+        background-color: var(--grinnell-red);
+        color: white;
+    }
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+
+    /* --- Content Grid & Search Result Animation --- */
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        padding: 50px;
+        max-width: 1100px;
+        margin: auto;
+    }
+    .grid-item {
+        background-color: var(--warm-content-bg);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid #e0d9cf;
+        transition: transform 0.4s ease, opacity 0.4s ease, height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+    }
+    .grid-item.hidden {
+        transform: scale(0.9);
+        opacity: 0;
+        height: 0;
+        padding: 0;
+        margin: 0;
+        border: none;
+        overflow: hidden;
+    }
+    .grid-item:hover {
+        transform: translateY(-10px) scale(1);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    }
+    .grid-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    .grid-item-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .grid-item-content p {
+        flex-grow: 1;
+    }
+
+    /* --- Event styles --- */
+    #event-list-container .event { margin-bottom: 20px; }
+    #event-list-container .event:last-child { margin-bottom: 0; }
+    .event h3 { margin-bottom: 5px; }
+    .event p { margin-top: 5px; font-size: 0.9em; }
+
+    /* --- Footer --- */
+    .footer {
+        background-color: #5d5d5d;
+        color: #fff;
+        text-align: center;
+        padding: 40px 20px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    /* --- Scroll Animation --- */
+    .fade-in-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+</head>
+<body>
+
+<header class="header">
+    <div style="display:flex; align-items:center;">
+        <div class="logo-container">
+            <img src="https://www.grinnell.edu/sites/default/files/site-logo/logo_0.png" alt="Grinnell College Logo">
+        </div>
+        <div class="tagline">Parents! No need to lo, let Grinn Lo!</div>
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Search..." id="searchInput">
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-text">
+        <h1>Welcome</h1>
+        <p>Grinn Lo connects families, bridging distance with stories, tours, and updates to ease worries and strengthen bonds.</p>
+    </div>
+</section>
+
+<section class="welcome-message fade-in-section">
+    <h2>A Warm Welcome to Our Grinnell Family</h2>
+    <p>Sending a student to college, especially from afar, is a journey filled with both excitement and questions. We created this space just for you—our students' biggest supporters—to feel connected, informed, and part of our wonderful community. Welcome home.</p>
+</section>
+
+<section class="actions">
+    <a href="#study" class="action-button">Study</a>
+    <div class="dropdown" id="tours-dropdown">
+        <div class="action-button">Campus Tours</div>
+        <div class="dropdown-content">
+            <a href="#tours">Disability Tour</a>
+            <a href="#tours">International Virtual Tour</a>
+            <a href="#tours">Domestic Tour</a>
+        </div>
+    </div>
+    <a href="#events" class="action-button">Events</a>
+    <a href="#resources" class="action-button">Student Resources</a>
+</section>
+
+<section class="grid-container">
+    <p id="no-results-message" style="display: none; text-align: center; width: 100%; grid-column: 1 / -1;">No matching content found. Try another search!</p>
+    <div class="grid-item fade-in-section" id="study">
+        <img src="https://www.desmoinesregister.com/gcdn/-mm-/f3fbff67044c5d1b965cffd1f115c09da2e9ade/c=87-0-1914-1032/local/-/media/2016/09/28/IAGroup/DesMoines/636106558451562655-dmrdc5-5c1cdq53pxc1jj51azz-original.jpg?width=660&height=371&fit=crop&format=pjpg&auto=webp" alt="Welcome">
+        <div class="grid-item-content">
+            <h2>Welcome to Grinn Lo</h2>
+            <p>This is your dedicated guide for everything international — from visa questions to housing details and your first "hello" to life at Grinnell.</p>
+        </div>
+    </div>
+    <div class="grid-item fade-in-section" id="events">
+        <img src="https://questbridge.imgix.net/content/uploads/partners/grinnell-college/20161107fallscences059-alt.jpg?auto=compress%2Cformat&fit=clip&q=90&w=1600&s=661c80bc5af8b85f4e8c55fad700d86d" alt="Events">
+        <div class="grid-item-content">
+            <h2>Upcoming Events</h2>
+            <div id="event-list-container"></div>
+        </div>
+    </div>
+    <div class="grid-item fade-in-section" id="tours">
+        <img src="https://s3-external-1.amazonaws.com/youvisit-img/Assets/img/locations/127994/1280_profile.jpg?v=1758729424" alt="Campus Life">
+        <div class="grid-item-content">
+            <h2>Campus Life & Tours</h2>
+            <p>Discover the vibrant community and opportunities that make Grinnell a special place to learn. Explore our virtual and on-campus tour options.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" id="resources">
+    <p><strong>Grinnell College</strong></p>
+    <p>1115 8th Ave, Grinnell, IA 50112</p>
+    <p>Contact the Office of International Student Affairs:</p>
+    <p>(641) 269-3700 | oisa@grinnell.edu</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Dynamic Event Loading ---
+    const events = [
+        { title: "International Student Orientation", date: "September 5, 2026", description: "Meet fellow students, connect with faculty, and settle into your new home." },
+        { title: "Parent & Family Virtual Q&A", date: "September 12, 2026", description: "A dedicated time for parents to connect with our staff and get questions answered." },
+        { title: "Cultural Fair on Campus", date: "October 15, 2026", description: "Celebrate the diverse cultures of Grinnell with food, music, and performances." }
+    ];
+    const eventContainer = document.getElementById('event-list-container');
+    if (events.length > 0) {
+        events.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.className = 'event';
+            eventElement.innerHTML = `<h3>${event.title}</h3><p><strong>${event.date}</strong><br>${event.description}</p>`;
+            eventContainer.appendChild(eventElement);
+        });
+    } else {
+        eventContainer.innerHTML = '<p>No upcoming events at this time. Please check back later!</p>';
+    }
+    
+    // --- Live Search Bar Functionality ---
+    const searchInput = document.getElementById('searchInput');
+    const gridItems = document.querySelectorAll('.grid-item');
+    const noResultsMessage = document.getElementById('no-results-message');
+
+    searchInput.addEventListener('keyup', (event) => {
+        const query = event.target.value.toLowerCase();
+        let resultsFound = false;
+        gridItems.forEach(item => {
+            const itemText = (item.id + " " + item.querySelector('h2').textContent + " " + item.querySelector('p').textContent).toLowerCase();
+            if (itemText.includes(query)) {
+                item.classList.remove('hidden');
+                resultsFound = true;
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+        noResultsMessage.style.display = resultsFound ? 'none' : 'block';
+    });
+
+    // --- Dropdown Menu Logic ---
+    const dropdown = document.getElementById('tours-dropdown');
+    dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        this.classList.toggle('active');
+    });
+    window.addEventListener('click', () => {
+        if (dropdown.classList.contains('active')) dropdown.classList.remove('active');
+    });
+
+    // --- Scroll Animation Logic ---
+    const fadeSections = document.querySelectorAll('.fade-in-section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('is-visible');
+        });
+    }, { threshold: 0.1 });
+    fadeSections.forEach(section => observer.observe(section));
+});
+</script>
+
+</body>
+</html>
