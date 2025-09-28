@@ -134,6 +134,7 @@
         gap: 50px;
         padding: 10px 0;
         background-color: var(--grinnell-red);
+        flex-wrap: wrap;
     }
     .action-button {
         border: 1px solid #fff;
@@ -160,6 +161,8 @@
     .dropdown-content {
         display: none;
         position: absolute;
+        top: 100%; /* Position below the button */
+        left: 0;
         background-color: #f9f9f9;
         min-width: 220px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -225,7 +228,7 @@
         display: flex;
         flex-direction: column;
     }
-    .grid-item-content p {
+    .grid-item-content p:not(:last-child) {
         flex-grow: 1;
     }
 
@@ -234,6 +237,40 @@
     #event-list-container .event:last-child { margin-bottom: 0; }
     .event h3 { margin-bottom: 5px; }
     .event p { margin-top: 5px; font-size: 0.9em; }
+    
+    /* --- Parent Hovering Options --- */
+    .parent-options-container {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .parent-option {
+        flex-basis: 100%;
+        text-decoration: none;
+        background-color: #fff;
+        color: var(--grinnell-red);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #e0d9cf;
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+    .parent-option:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        background-color: var(--grinnell-red);
+        color: #fff;
+    }
+    @media (min-width: 400px) {
+        .parent-option {
+            flex-basis: auto;
+            flex-grow: 1;
+        }
+    }
 
     /* --- Footer --- */
     .footer {
@@ -284,6 +321,7 @@
 
 <section class="actions">
     <a href="#study" class="action-button">Study</a>
+    
     <div class="dropdown" id="tours-dropdown">
         <div class="action-button">Campus Tours</div>
         <div class="dropdown-content">
@@ -292,12 +330,22 @@
             <a href="#tours">Domestic Tour</a>
         </div>
     </div>
+    
     <a href="#events" class="action-button">Events</a>
-    <a href="#resources" class="action-button">Student Resources</a>
+    
+    <div class="dropdown" id="parents-dropdown">
+        <div class="action-button">Connecting Parents</div>
+        <div class="dropdown-content">
+            <a href="#connecting-parents">FIS Hosts</a>
+            <a href="#connecting-parents">IPOP Mentors</a>
+            <a href="#connecting-parents">NSO, Resources</a>
+        </div>
+    </div>
 </section>
 
 <section class="grid-container">
     <p id="no-results-message" style="display: none; text-align: center; width: 100%; grid-column: 1 / -1;">No matching content found. Try another search!</p>
+    
     <div class="grid-item fade-in-section" id="study">
         <img src="https://www.desmoinesregister.com/gcdn/-mm-/f3fbff67044c5d1b965cffd1f115c09da2e9ade/c=87-0-1914-1032/local/-/media/2016/09/28/IAGroup/DesMoines/636106558451562655-dmrdc5-5c1cdq53pxc1jj51azz-original.jpg?width=660&height=371&fit=crop&format=pjpg&auto=webp" alt="Welcome">
         <div class="grid-item-content">
@@ -305,6 +353,7 @@
             <p>This is your dedicated guide for everything international — from visa questions to housing details and your first "hello" to life at Grinnell.</p>
         </div>
     </div>
+    
     <div class="grid-item fade-in-section" id="events">
         <img src="https://questbridge.imgix.net/content/uploads/partners/grinnell-college/20161107fallscences059-alt.jpg?auto=compress%2Cformat&fit=clip&q=90&w=1600&s=661c80bc5af8b85f4e8c55fad700d86d" alt="Events">
         <div class="grid-item-content">
@@ -312,6 +361,7 @@
             <div id="event-list-container"></div>
         </div>
     </div>
+    
     <div class="grid-item fade-in-section" id="tours">
         <img src="https://s3-external-1.amazonaws.com/youvisit-img/Assets/img/locations/127994/1280_profile.jpg?v=1758729424" alt="Campus Life">
         <div class="grid-item-content">
@@ -319,6 +369,7 @@
             <p>Discover the vibrant community and opportunities that make Grinnell a special place to learn. Explore our virtual and on-campus tour options.</p>
         </div>
     </div>
+
 </section>
 
 <footer class="footer" id="resources">
@@ -358,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const query = event.target.value.toLowerCase();
         let resultsFound = false;
         gridItems.forEach(item => {
-            const itemText = (item.id + " " + item.querySelector('h2').textContent + " " + item.querySelector('p').textContent).toLowerCase();
+            const itemText = (item.id + " " + item.querySelector('.grid-item-content').textContent).toLowerCase();
             if (itemText.includes(query)) {
                 item.classList.remove('hidden');
                 resultsFound = true;
@@ -369,14 +420,31 @@ document.addEventListener('DOMContentLoaded', () => {
         noResultsMessage.style.display = resultsFound ? 'none' : 'block';
     });
 
-    // --- Dropdown Menu Logic ---
-    const dropdown = document.getElementById('tours-dropdown');
-    dropdown.addEventListener('click', function(event) {
-        event.stopPropagation();
-        this.classList.toggle('active');
+    // --- Dropdown Menu Logic (Handles Multiple Dropdowns) ---
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+        const button = dropdown.querySelector('.action-button');
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            // Close other open dropdowns first
+            dropdowns.forEach(otherDropdown => {
+                if (otherDropdown !== dropdown) {
+                    otherDropdown.classList.remove('active');
+                }
+            });
+            // Toggle the clicked dropdown
+            dropdown.classList.toggle('active');
+        });
     });
+
+    // Close dropdowns if clicking outside of them
     window.addEventListener('click', () => {
-        if (dropdown.classList.contains('active')) dropdown.classList.remove('active');
+        dropdowns.forEach(dropdown => {
+            if (dropdown.classList.contains('active')) {
+                dropdown.classList.remove('active');
+            }
+        });
     });
 
     // --- Scroll Animation Logic ---
